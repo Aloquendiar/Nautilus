@@ -101,7 +101,8 @@
             // PasswordUnlocker
             // 
             this.AcceptButton = this.btnOK;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.CancelButton = this.btnOK;
             this.ClientSize = new System.Drawing.Size(284, 139);

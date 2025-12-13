@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Windows.Forms;
+﻿using NAudio.Midi;
 using Nautilus.Properties;
 using Nautilus.x360;
-using SearchOption = System.IO.SearchOption;
+using NautilusFREE;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
-using NAudio.Midi;
 using System.Drawing.Imaging;
+using System.IO;
+using System.Linq;
+using System.Net.FtpClient.Extensions;
+using System.Security.Cryptography;
+using System.Text;
+using System.Windows.Forms;
 using Un4seen.Bass;
-using Un4seen.Bass.AddOn.Mix;
 using Un4seen.Bass.AddOn.Enc;
 using Un4seen.Bass.AddOn.EncOgg;
-using NautilusFREE;
+using Un4seen.Bass.AddOn.Mix;
+using SearchOption = System.IO.SearchOption;
 
 namespace Nautilus
 {
@@ -415,7 +417,7 @@ namespace Nautilus
                         }
                         var songExtracted = PS3Folder + "temp\\" + Path.GetFileName(file).Replace(" ","") + "_extracted\\";
                         var origExFolder = songExtracted;
-                        var songFolder = chkMerge.Checked && chkMerge.Enabled ? MergedSongsFolder : AllSongsFolder + Tools.CleanString(SongArtist,false) + " - " + Tools.CleanString(SongName, false) + "\\";
+                        var songFolder = chkMerge.Checked && chkMerge.Enabled ? MergedSongsFolder : AllSongsFolder + Tools.CleanString(SongArtist,false) + " - " + Tools.CleanString(SongName, false) + "\\" + "songs\\";
                         internalFolder = songFolder + CleanString(internalName) + "\\";
                         var genFolder = internalFolder + "gen\\";
                         Tools.DeleteFolder(songExtracted,true);
@@ -618,6 +620,24 @@ namespace Nautilus
             line = bad_chars.Aggregate(line, (current, bad) => current.Replace(bad, ""));
             return line.ToLowerInvariant().Trim();
         }
+        private string ContendIdGenerate(string ContendID)
+        {
+            // Limpiar el ContendID (asegurarse de que CleanString procese correctamente la cadena)
+            ContendID = CleanString(internalName).ToUpperInvariant();
+
+            string parteVariable;
+            if (ContendID.Length > 14)
+            {
+                parteVariable = ContendID.Substring(0, 14); 
+            }
+            else
+            {
+                parteVariable = ContendID.PadRight(14, '0'); 
+            }
+            // Prefijo que se va a agregar
+            string prefix = "UP8802-BLUS30463_00-RB" + parteVariable;
+            return prefix;
+        }
 
         private void btnRefresh_Click(object sender, EventArgs e)
         {
@@ -632,7 +652,11 @@ namespace Nautilus
             Log("Encrypting MIDI file '" + Path.GetFileName(file) + "' to EDAT");
             var region = regionNTSC.Checked ? "regionNTSC" : "regionPAL";
             var wait = wait2Seconds.Checked ? "2000" : (wait5Seconds.Checked ? "5000" : "10000");
-            var arg = format + " " + region + " " + wait + " \"" + file + "\"";
+            var KLic = BitConverter.ToString(System.Security.Cryptography.MD5.Create().ComputeHash(Encoding.UTF8.GetBytes("Ih38rtW1ng3r" + Tools.CleanString(SongArtist, false) + " - " + Tools.CleanString(SongName, false) + "10025250"))).Replace("-", "").ToLower();
+            Console.WriteLine(Tools.CleanString(SongArtist, false) + " - " + Tools.CleanString(SongName, false));
+            Console.WriteLine(KLic);
+            var ID = ContendIdGenerate(internalName).ToUpperInvariant();
+            var arg = format + " " + region + " " + wait + " \"" + file + "\"" + " " + KLic + " " + ID;
             var startInfo = new ProcessStartInfo
             {
                 FileName = bin + "nemoedat.exe",
