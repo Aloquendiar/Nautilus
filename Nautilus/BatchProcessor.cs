@@ -290,12 +290,18 @@ namespace Nautilus
                                             var changedAuthor = false;
                                             var songTitle = Parser.Songs[0].Name;
                                             var yearReleased = Parser.Songs[0].YearReleased;
-                                            var sr = new StreamReader(currDTA, true);
-                                            var sw = new StreamWriter(newDTA);
+                                            var encoding = Parser.DetectEncoding(File.ReadAllBytes(currDTA));
+                                            var sr = new StreamReader(currDTA, encoding);
+                                            var sw = new StreamWriter(newDTA, false, new UTF8Encoding(false, false));
                                             var line = "";
                                             while (!sr.EndOfStream)
                                             {
                                                 line = sr.ReadLine();
+                                                if (line.Contains("latin1"))
+                                                {
+                                                    sw.WriteLine(line.Replace("latin1", "utf8"));
+                                                    line = sr.ReadLine();
+                                                }
                                                 if (line.ToLowerInvariant().Contains("game_origin") && chkOrigin.Checked && txtOrigin.Text.Length > 0)
                                                 {
                                                     var origin = "";
@@ -330,7 +336,7 @@ namespace Nautilus
                                                         var origID = Parser.GetSongID(line);
                                                         sw.WriteLine(";ORIG_ID=" + origID);
                                                         var corrector = new SongIDCorrector();
-                                                        line = "   ('song_id' " + corrector.ShortnameToSongID(Parser.Songs[0].InternalName) + ")";
+                                                        line = "   ('song_id' " + corrector.ShortnameToSongID(Parser.Songs[0].ShortName) + ")";
                                                         sw.WriteLine(line);
                                                         line = sr.ReadLine();
                                                     }
