@@ -351,6 +351,8 @@ namespace Nautilus
                     Application.Run(new MainForm());
                 }
             }
+            Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+            Application.EnableVisualStyles();
             GC.KeepAlive(mutex);
         }
 

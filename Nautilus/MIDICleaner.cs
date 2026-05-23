@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography; // Agregado para el RNG criptográfico
 using System.Text;
 using System.Windows.Forms;
 using Nautilus.Properties;
@@ -55,6 +56,10 @@ namespace Nautilus
         private bool isRBN2;
         private static Color mMenuBackground;
         private string activeFile;
+        
+        // --- INICIO DE VARIABLES CRIPTOGRÁFICAS ---
+        private static readonly RNGCryptoServiceProvider rngCripto = new RNGCryptoServiceProvider();
+        // --- FIN DE VARIABLES CRIPTOGRÁFICAS ---
 
         public MIDICleaner(string args, Color ButtonBackColor, Color ButtonTextColor)
         {
@@ -78,6 +83,15 @@ namespace Nautilus
                 button.FlatAppearance.MouseOverBackColor = button.BackColor == Color.Transparent ? Color.FromArgb(127, Color.AliceBlue.R, Color.AliceBlue.G, Color.AliceBlue.B) : Tools.LightenColor(button.BackColor);
             }
         }
+
+        // --- NUEVA FUNCIÓN PARA EL NÚMERO ALEATORIO ---
+        private int NumeroRandomCriptografico(int maximoExclusivo)
+        {
+            byte[] numeroByte = new byte[1];
+            rngCripto.GetBytes(numeroByte);
+            return numeroByte[0] % maximoExclusivo; 
+        }
+        // ----------------------------------------------
 
         private void Log(string message)
         {
@@ -672,13 +686,7 @@ namespace Nautilus
                         var camera_number = -1;
                         var old_postproc = "";
                         var new_postproc = "";
-                        var directedCuts = new List<string>() { "[directed_all_lt]", "[directed_drums_lt]", "[directed_bass_cls]",
-                            "[directed_guitar_cls]", "[directed_drums_kd]", "[directed_crowd]", "[directed_bass_cls]", "[directed_guitar_cls]",
-                            "[directed_drums_kd]", "[directed_crowd]" };
-                        var directedCutString = "";
-                        long directedCutAbsTime = 0;
-                        bool addedDirectedCut = true;
-
+                        var dbeat = false;
                         for (var z = 0; z < dirtyMIDI.Events[i].Count; z++)
                         {
                             var notes = dirtyMIDI.Events[i][z];
@@ -693,37 +701,78 @@ namespace Nautilus
                                         {
                                             continue;
                                         }
-                                        if (venue_event.ToString().Contains("[lighting ()]") && removeLighting.Checked)
-                                        {
-                                            LogDetails("VENUE: Found disallowed [lighting ()] event and removed it");
-                                            var log_path = Path.Combine(Path.GetDirectoryName(activeFile), "jphn.log");
-                                            using (var sw = new StreamWriter(log_path, true))
-                                            {
-                                                sw.WriteLine($"{Path.GetFileName(activeFile)} - found disallowed [lighting ()] event and cleaned it");
-                                            }
-                                            toRemove.Add(notes);
-                                        }
+
                                         var index = venue_event.ToString().IndexOf("[", StringComparison.Ordinal);
                                         var old_event = venue_event.ToString().Substring(index, venue_event.ToString().Length - index);
                                         var new_event = old_event.ToLowerInvariant().Trim();
 
-                                        if (new_event.Contains("fog"))
+                                        bool isOldVerse = new_event.Contains("[verse]");
+                                        bool isOldChorus = new_event.Contains("[chorus]");
+                                        bool isOldLightingBlank = new_event.Contains("[lighting ()]");
+
+                                        if (isOldVerse || isOldChorus || isOldLightingBlank)
                                         {
-                                            LogDetails("VENUE: Stage Kit instruction" + FormattedTime(notes.AbsoluteTime) + " is not allowed and was removed");
-                                            toRemove.Add(notes);
+                                            bool hasOtherLighting = false;
+                                            foreach (var ev in dirtyMIDI.Events[i])
+                                            {
+                                                if (ev.AbsoluteTime == venue_event.AbsoluteTime && ev.CommandCode == MidiCommandCode.MetaEvent)
+                                                {
+                                                    var ev_str = ev.ToString();
+                                                    var ev_index = ev_str.IndexOf("[", StringComparison.Ordinal);
+                                                    if (ev_index != -1)
+                                                    {
+                                                        var ev_text = ev_str.Substring(ev_index).ToLowerInvariant().Trim();
+                                                        if (ev_text.Contains("[lighting (") && !ev_text.Contains("[lighting ()]"))
+                                                        {
+                                                            hasOtherLighting = true;
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            if (hasOtherLighting)
+                                            {
+                                                toRemove.Add(notes);
+                                                LogDetails("VENUE: Found redundant " + old_event + FormattedTime(venue_event.AbsoluteTime) + " (another lighting event exists), so it was removed");
+                                            }
+                                            else if (isOldLightingBlank)
+                                            {
+                                                if (removeLighting.Checked)
+                                                {
+                                                    LogDetails("VENUE: Found [lighting ()] was converted to [lighting (intro)]");
+                                                    var log_path = Path.Combine(Path.GetDirectoryName(activeFile), "jphn.log");
+                                                    using (var sw = new StreamWriter(log_path, true))
+                                                    {
+                                                        sw.WriteLine($"{Path.GetFileName(activeFile)} - found [lighting ()] was converted to [lighting (intro)]");
+                                                    }
+                                                    toRemove.Add(notes);
+                                                }
+                                                else
+                                                {
+                                                    new_event = "[lighting (intro)]";
+                                                    dirtyMIDI.Events[i][z] = new TextEvent(new_event, MetaEventType.TextEvent, venue_event.AbsoluteTime);
+                                                    LogDetails("VENUE: lighting call " + old_event + FormattedTime(venue_event.AbsoluteTime) + " is not supported and was changed to " + new_event);
+                                                }
+                                            }
+                                            else if (isOldVerse)
+                                            {
+                                                new_event = "[lighting (verse)]";
+                                                dirtyMIDI.Events[i][z] = new TextEvent(new_event, MetaEventType.TextEvent, venue_event.AbsoluteTime);
+                                                LogDetails("VENUE: lighting call " + old_event + FormattedTime(venue_event.AbsoluteTime) + " is not supported and was changed to " + new_event);
+                                            }
+                                            else if (isOldChorus)
+                                            {
+                                                new_event = "[lighting (chorus)]";
+                                                dirtyMIDI.Events[i][z] = new TextEvent(new_event, MetaEventType.TextEvent, venue_event.AbsoluteTime);
+                                                LogDetails("VENUE: lighting call " + old_event + FormattedTime(venue_event.AbsoluteTime) + " is not supported and was changed to " + new_event);
+                                            }
                                         }
-                                        else if (directedCuts.Contains(new_event))
-                                        {
-                                            directedCutString = new_event;
-                                            directedCutAbsTime = venue_event.AbsoluteTime;
-                                            addedDirectedCut = false;
-                                        }
-                                        else if (isCameraEvent(new_event) && !addedDirectedCut)
-                                        {
-                                            toAdd.Add(new TextEvent(directedCutString, MetaEventType.TextEvent, directedCutAbsTime - 50));
-                                            addedDirectedCut = true;
-                                            LogDetails($"VENUE: Added directed cut '{directedCutString}'");
-                                        }
+                                        // else if (new_event.Contains("fog"))
+                                        // {
+                                        //     LogDetails("VENUE: Stage Kit instruction" + FormattedTime(notes.AbsoluteTime) + " is not allowed and was removed");
+                                        //     toRemove.Add(notes);
+                                        // }  We don't need to prune it for rb3_plus
                                         else if (new_event.Contains("[do_directed_cut "))
                                         {
                                             new_event = new_event.Replace("do_directed_cut ", "");
@@ -736,45 +785,7 @@ namespace Nautilus
                                             dirtyMIDI.Events[i][z] = new TextEvent(new_event, MetaEventType.TextEvent, venue_event.AbsoluteTime);
                                             LogDetails("VENUE: cut " + old_event + FormattedTime(venue_event.AbsoluteTime) +
                                                        " is not supported and was changed to " + new_event);
-                                            if (directedCuts.Contains(new_event) && addedDirectedCut)
-                                            {
-                                                directedCutString = new_event;
-                                                directedCutAbsTime = venue_event.AbsoluteTime;
-                                                addedDirectedCut = false;
-                                            }
-                                            else if (isCameraEvent(new_event) && !addedDirectedCut)
-                                            {
-                                                toAdd.Add(new TextEvent(directedCutString, MetaEventType.TextEvent, directedCutAbsTime - 50));
-                                                addedDirectedCut = true;
-                                                if (directedCuts.Contains(new_event))
-                                                {
-                                                    directedCutString = new_event;
-                                                    directedCutAbsTime = venue_event.AbsoluteTime;
-                                                    addedDirectedCut = false;
-                                                }
-                                            }
                                         }
-                                        else if (new_event.Contains("[verse]"))
-                                        {
-                                            new_event = "[lighting (verse)]";
-                                            dirtyMIDI.Events[i][z] = new TextEvent(new_event, MetaEventType.TextEvent, venue_event.AbsoluteTime);
-                                            LogDetails("VENUE: lighting call " + old_event + FormattedTime(venue_event.AbsoluteTime) +
-                                                       " is not supported and was changed to " + new_event);
-                                        }
-                                        else if (new_event.Contains("[chorus]"))
-                                        {
-                                            new_event = "[lighting (chorus)]";
-                                            dirtyMIDI.Events[i][z] = new TextEvent(new_event, MetaEventType.TextEvent, venue_event.AbsoluteTime);
-                                            LogDetails("VENUE: lighting call " + old_event + FormattedTime(venue_event.AbsoluteTime) +
-                                                       " is not supported and was changed to " + new_event);
-                                        }
-                                        /*else if (new_event.Contains("[lighting ()]") && !removeLighting.Checked)
-                                        {
-                                            new_event = "[lighting (harmony)]";
-                                            dirtyMIDI.Events[i][z] = new TextEvent(new_event, MetaEventType.TextEvent, venue_event.AbsoluteTime);
-                                            LogDetails("VENUE: lighting call " + old_event + FormattedTime(venue_event.AbsoluteTime) +
-                                                       " is not supported and was changed to " + new_event);
-                                        }*/
                                         else if (new_event.Contains(".pp"))
                                         {
                                             old_postproc = new_event;
@@ -786,6 +797,8 @@ namespace Nautilus
                                     switch (noteoff.NoteNumber)
                                     {
                                         case 48:
+                                        case 49:
+                                        case 50:
                                         case 60:
                                         case 61:
                                         case 62:
@@ -816,7 +829,6 @@ namespace Nautilus
                                     break;
                                 case MidiCommandCode.NoteOn:
                                     var note = (NoteOnEvent)notes;
-                                    var doDirectedCut = false;
 
                                     if (note.NoteNumber == 48)
                                     {
@@ -825,6 +837,24 @@ namespace Nautilus
                                         {
                                             toAdd.Add(new TextEvent("[next]", MetaEventType.TextEvent, note.AbsoluteTime));
                                             LogDetails("VENUE: MIDI note " + note.NoteNumber + FormattedTime(note.AbsoluteTime) + " was changed to [next] Text Event");
+                                        }
+                                    }
+                                    if (note.NoteNumber == 49)
+                                    {
+                                        toRemove.Add(note);
+                                        if (note.Velocity > 0) //ignore running events
+                                        {
+                                            toAdd.Add(new TextEvent("[prev]", MetaEventType.TextEvent, note.AbsoluteTime));
+                                            LogDetails("VENUE: MIDI note " + note.NoteNumber + FormattedTime(note.AbsoluteTime) + " was changed to [prev] Text Event");
+                                        }
+                                    }
+                                    if (note.NoteNumber == 50)
+                                    {
+                                        toRemove.Add(note);
+                                        if (note.Velocity > 0) //ignore running events
+                                        {
+                                            toAdd.Add(new TextEvent("[first]", MetaEventType.TextEvent, note.AbsoluteTime));
+                                            LogDetails("VENUE: MIDI note " + note.NoteNumber + FormattedTime(note.AbsoluteTime) + " was changed to [first] Text Event");
                                         }
                                     }
                                     else if (note.NoteNumber > 59 && note.NoteNumber < 74 && note.Velocity == 0) //running events
@@ -849,7 +879,7 @@ namespace Nautilus
                                                 }
                                                 cameracuts[camera_number].TimeStamp = note.AbsoluteTime;
                                                 cameracuts[camera_number].Bass = true;
-                                                doDirectedCut = true;
+
                                                 break;
                                             case 62:
                                                 if (camera_number == -1) //can't use value -1 in the list
@@ -864,7 +894,7 @@ namespace Nautilus
                                                 }
                                                 cameracuts[camera_number].TimeStamp = note.AbsoluteTime;
                                                 cameracuts[camera_number].Drummer = true;
-                                                doDirectedCut = true;
+
                                                 break;
                                             case 63:
                                                 if (camera_number == -1) //can't use value -1 in the list
@@ -879,7 +909,7 @@ namespace Nautilus
                                                 }
                                                 cameracuts[camera_number].TimeStamp = note.AbsoluteTime;
                                                 cameracuts[camera_number].Guitar = true;
-                                                doDirectedCut = true;
+
                                                 break;
                                             case 64:
                                                 if (camera_number == -1) //can't use value -1 in the list
@@ -894,7 +924,7 @@ namespace Nautilus
                                                 }
                                                 cameracuts[camera_number].TimeStamp = note.AbsoluteTime;
                                                 cameracuts[camera_number].Singer = true;
-                                                doDirectedCut = true;
+
                                                 break;
                                             case 70:
                                                 if (camera_number == -1) //can't use value -1 in the list
@@ -909,7 +939,7 @@ namespace Nautilus
                                                 }
                                                 cameracuts[camera_number].TimeStamp = note.AbsoluteTime;
                                                 cameracuts[camera_number].NoBehind = true;
-                                                doDirectedCut = true;
+
                                                 break;
                                             case 71:
                                                 if (camera_number == -1) //can't use value -1 in the list
@@ -924,7 +954,7 @@ namespace Nautilus
                                                 }
                                                 cameracuts[camera_number].TimeStamp = note.AbsoluteTime;
                                                 cameracuts[camera_number].OnlyFar = true;
-                                                doDirectedCut = true;
+
                                                 break;
                                             case 72:
                                                 if (camera_number == -1) //can't use value -1 in the list
@@ -939,7 +969,7 @@ namespace Nautilus
                                                 }
                                                 cameracuts[camera_number].TimeStamp = note.AbsoluteTime;
                                                 cameracuts[camera_number].OnlyClose = true;
-                                                doDirectedCut = true;
+
                                                 break;
                                             case 73:
                                                 if (camera_number == -1) //can't use value -1 in the list
@@ -954,7 +984,7 @@ namespace Nautilus
                                                 }
                                                 cameracuts[camera_number].TimeStamp = note.AbsoluteTime;
                                                 cameracuts[camera_number].NoClose = true;
-                                                doDirectedCut = true;
+
                                                 break;
                                         }
                                     }
@@ -989,10 +1019,10 @@ namespace Nautilus
                                                 new_postproc = "[photocopy.pp]";
                                                 break;
                                             case 103:
-                                                new_postproc = "[bloom.pp]";
+                                                new_postproc = "[ProFilm_a.pp]";
                                                 break;
                                             case 104:
-                                                new_postproc = "[bright.pp]";
+                                                new_postproc = "[ProFilm_b.pp]";
                                                 break;
                                             case 105:
                                                 new_postproc = "[ProFilm_mirror_a.pp]";
@@ -1004,13 +1034,13 @@ namespace Nautilus
                                                 new_postproc = "[video_a.pp]";
                                                 break;
                                             case 108:
-                                                new_postproc = "[film_b+w.pp]";
+                                                new_postproc = "[video_bw.pp]";
                                                 break;
                                             case 109:
                                                 new_postproc = "[video_security.pp]";
                                                 break;
                                             case 110:
-                                                new_postproc = "[clean_trails.pp]";
+                                                new_postproc = "[video_trails.pp]";
                                                 break;
                                         }
 
@@ -1027,14 +1057,7 @@ namespace Nautilus
                                                    new_postproc + " Text Event");
                                         old_postproc = new_postproc;                                        
                                     }
-                                    if (!string.IsNullOrEmpty(directedCutString) && doDirectedCut && !addedDirectedCut && note.AbsoluteTime > directedCutAbsTime)
-                                    {
-                                        toAdd.Add(new TextEvent(directedCutString, MetaEventType.TextEvent, note.AbsoluteTime - 50));
-                                        addedDirectedCut = true;
-                                        directedCutString = "";
-                                        directedCutAbsTime = 0;
-                                        LogDetails($"VENUE: Added directed cut '{directedCutString}'");
-                                    }
+
                                     break;
                             }
                         }
@@ -1058,16 +1081,7 @@ namespace Nautilus
                                 }
                                 else
                                 {
-                                    camera = "[coop_" + (cut.Drummer ? "all" : "front") + "_near]";
-                                    var camera2 = "[coop_" + (cut.Drummer ? "all" : "front") + "_behind]";
-                                    toAdd.Add(new TextEvent(camera2, MetaEventType.TextEvent, cut.TimeStamp));
-                                    LogDetails("VENUE: converted camera cut notes" + FormattedTime(cut.TimeStamp) + " to " + camera2 + " Text Event");
-
-                                    if (cut.Drummer)
-                                    {
-                                        toAdd.Add(new TextEvent("[coop_all_far]", MetaEventType.TextEvent, cut.TimeStamp));
-                                        LogDetails("VENUE: converted camera cut notes" + FormattedTime(cut.TimeStamp) + " to [coop_all_far] Text Event");
-                                    }
+                                    camera = NumeroRandomCriptografico(3) != 0 ? "[coop_" + (cut.Drummer ? "all" : "front") + "_near]" : "[coop_" + (cut.Drummer ? "all" : "front") + "_behind]";
                                 }
                             }
                             else if (cut.Singer && cut.Bass)
@@ -1082,10 +1096,7 @@ namespace Nautilus
                                 }
                                 else
                                 {
-                                    camera = "[coop_bv_near]";
-                                    const string camera2 = "[coop_bv_behind]";
-                                    toAdd.Add(new TextEvent(camera2, MetaEventType.TextEvent, cut.TimeStamp));
-                                    LogDetails("VENUE: converted camera cut notes" + FormattedTime(cut.TimeStamp) + " to " + camera2 + " Text Event");
+                                    camera = NumeroRandomCriptografico(3) != 0 ? "[coop_bv_near]" : "[coop_bv_behind]";
                                 }
                             }
                             else if (cut.Singer && cut.Guitar)
@@ -1100,10 +1111,7 @@ namespace Nautilus
                                 }
                                 else
                                 {
-                                    camera = "[coop_gv_near]";
-                                    const string camera2 = "[coop_gv_behind]";
-                                    toAdd.Add(new TextEvent(camera2, MetaEventType.TextEvent, cut.TimeStamp));
-                                    LogDetails("VENUE: converted camera cut notes" + FormattedTime(cut.TimeStamp) + " to " + camera2 + " Text Event");
+                                    camera = NumeroRandomCriptografico(3) != 0 ? "[coop_gv_near]" : "[coop_gv_behind]";
                                 }
                             }
                             else if (cut.Singer && cut.Drummer)
@@ -1130,10 +1138,7 @@ namespace Nautilus
                                 }
                                 else
                                 {
-                                    camera = "[coop_bg_near]";
-                                    const string camera2 = "[coop_bg_behind]";
-                                    toAdd.Add(new TextEvent(camera2, MetaEventType.TextEvent, cut.TimeStamp));
-                                    LogDetails("VENUE: converted camera cut notes" + FormattedTime(cut.TimeStamp) + " to " + camera2 + " Text Event");
+                                    camera = NumeroRandomCriptografico(3) != 0 ? "[coop_bg_near]" : "[coop_bg_behind]";
                                 }
                             }
                             else if (cut.Singer)
@@ -1148,17 +1153,14 @@ namespace Nautilus
                                 }
                                 else
                                 {
-                                    camera = "[coop_v_near]";
-                                    const string camera2 = "[coop_v_behind]";
-                                    toAdd.Add(new TextEvent(camera2, MetaEventType.TextEvent, cut.TimeStamp));
-                                    LogDetails("VENUE: converted camera cut notes" + FormattedTime(cut.TimeStamp) + " to " + camera2 + " Text Event");
+                                    camera = NumeroRandomCriptografico(3) != 0 ? "[coop_v_near]" : "[coop_v_behind]";
                                 }
                             }
                             else if (cut.Guitar)
                             {
                                 if (cut.OnlyClose)
                                 {
-                                    camera = "[coop_g_closeup_hand]";
+                                    camera = NumeroRandomCriptografico(3) != 0 ? "[coop_g_closeup_hand]" : "[coop_g_closeup_head]";
                                 }
                                 else if (cut.NoBehind)
                                 {
@@ -1166,17 +1168,14 @@ namespace Nautilus
                                 }
                                 else
                                 {
-                                    camera = "[coop_g_near]";
-                                    const string camera2 = "[coop_g_behind]";
-                                    toAdd.Add(new TextEvent(camera2, MetaEventType.TextEvent, cut.TimeStamp));
-                                    LogDetails("VENUE: converted camera cut notes" + FormattedTime(cut.TimeStamp) + " to " + camera2 + " Text Event");
+                                    camera = NumeroRandomCriptografico(3) != 0 ? "[coop_g_near]" : "[coop_g_behind]";
                                 }
                             }
                             else if (cut.Bass)
                             {
                                 if (cut.OnlyClose)
                                 {
-                                    camera = "[coop_b_closeup_hand]";
+                                    camera = NumeroRandomCriptografico(3) != 0 ? "[coop_b_closeup_hand]" : "[coop_b_closeup_head]";
                                 }
                                 else if (cut.NoBehind)
                                 {
@@ -1184,17 +1183,14 @@ namespace Nautilus
                                 }
                                 else
                                 {
-                                    camera = "[coop_b_near]";
-                                    const string camera2 = "[coop_b_behind]";
-                                    toAdd.Add(new TextEvent(camera2, MetaEventType.TextEvent, cut.TimeStamp));
-                                    LogDetails("VENUE: converted camera cut notes" + FormattedTime(cut.TimeStamp) + " to " + camera2 + " Text Event");
+                                    camera = NumeroRandomCriptografico(3) != 0 ? "[coop_b_near]" : "[coop_b_behind]";
                                 }
                             }
                             else if (cut.Drummer)
                             {
                                 if (cut.OnlyClose)
                                 {
-                                    camera = "[coop_d_closeup_hand]";
+                                    camera = NumeroRandomCriptografico(3) != 0 ? "[coop_d_closeup_hand]" : "[coop_d_closeup_head]";
                                 }
                                 else if (cut.NoBehind)
                                 {
@@ -1202,16 +1198,14 @@ namespace Nautilus
                                 }
                                 else
                                 {
-                                    camera = "[coop_d_near]";
-                                    const string camera2 = "[coop_d_behind]";
-                                    toAdd.Add(new TextEvent(camera2, MetaEventType.TextEvent, cut.TimeStamp));
-                                    LogDetails("VENUE: converted camera cut notes" + FormattedTime(cut.TimeStamp) + " to " + camera2 + " Text Event");
+                                    camera = NumeroRandomCriptografico(3) != 0 ? "[coop_d_near]" : "[coop_d_behind]";
                                 }
                             }
                             else if (cut.OnlyFar)
                             {
                                 camera = "[coop_all_far]";
                             }
+                            
                             if (string.IsNullOrWhiteSpace(camera)) continue;
                             toAdd.Add(new TextEvent(camera, MetaEventType.TextEvent, cut.TimeStamp));
                             LogDetails("VENUE: converted camera cut notes" + FormattedTime(cut.TimeStamp) + " to " + camera + " Text Event");

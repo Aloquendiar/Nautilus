@@ -70,6 +70,7 @@
             this.setDTAEncodingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aNSIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.uTF8ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.hidePackFromRB3 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.btnReset = new System.Windows.Forms.Button();
@@ -84,7 +85,6 @@
             this.btnRB1 = new System.Windows.Forms.Button();
             this.btnRB2 = new System.Windows.Forms.Button();
             this.btnRB3 = new System.Windows.Forms.Button();
-            this.hidePackFromRB3 = new System.Windows.Forms.ToolStripMenuItem();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.thumb10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.thumb9)).BeginInit();
@@ -112,9 +112,10 @@
             this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnRefresh.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnRefresh.ForeColor = System.Drawing.Color.White;
-            this.btnRefresh.Location = new System.Drawing.Point(304, 26);
+            this.btnRefresh.Location = new System.Drawing.Point(380, 32);
+            this.btnRefresh.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(100, 30);
+            this.btnRefresh.Size = new System.Drawing.Size(125, 38);
             this.btnRefresh.TabIndex = 15;
             this.btnRefresh.Text = "Refresh Folder";
             this.btnRefresh.UseVisualStyleBackColor = false;
@@ -132,9 +133,10 @@
             this.btnFolder.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnFolder.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnFolder.ForeColor = System.Drawing.Color.White;
-            this.btnFolder.Location = new System.Drawing.Point(4, 26);
+            this.btnFolder.Location = new System.Drawing.Point(5, 32);
+            this.btnFolder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnFolder.Name = "btnFolder";
-            this.btnFolder.Size = new System.Drawing.Size(133, 30);
+            this.btnFolder.Size = new System.Drawing.Size(166, 38);
             this.btnFolder.TabIndex = 14;
             this.btnFolder.Text = "Change &Input Folder";
             this.btnFolder.UseVisualStyleBackColor = false;
@@ -146,10 +148,11 @@
             // 
             this.txtFolder.AllowDrop = true;
             this.txtFolder.BackColor = System.Drawing.Color.White;
-            this.txtFolder.Location = new System.Drawing.Point(4, 59);
+            this.txtFolder.Location = new System.Drawing.Point(5, 74);
+            this.txtFolder.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtFolder.Name = "txtFolder";
             this.txtFolder.ReadOnly = true;
-            this.txtFolder.Size = new System.Drawing.Size(400, 20);
+            this.txtFolder.Size = new System.Drawing.Size(499, 20);
             this.txtFolder.TabIndex = 13;
             this.txtFolder.TextChanged += new System.EventHandler(this.txtFolder_TextChanged);
             this.txtFolder.DragDrop += new System.Windows.Forms.DragEventHandler(this.HandleDragDrop);
@@ -163,9 +166,10 @@
             this.lstLog.ContextMenuStrip = this.contextMenuStrip1;
             this.lstLog.FormattingEnabled = true;
             this.lstLog.HorizontalScrollbar = true;
-            this.lstLog.Location = new System.Drawing.Point(4, 352);
+            this.lstLog.Location = new System.Drawing.Point(5, 440);
+            this.lstLog.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.lstLog.Name = "lstLog";
-            this.lstLog.Size = new System.Drawing.Size(400, 119);
+            this.lstLog.Size = new System.Drawing.Size(500, 145);
             this.lstLog.TabIndex = 12;
             this.lstLog.DragDrop += new System.Windows.Forms.DragEventHandler(this.HandleDragDrop);
             this.lstLog.DragEnter += new System.Windows.Forms.DragEventHandler(this.HandleDragEnter);
@@ -173,17 +177,18 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.contextMenuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.exportLogFileToolStripMenuItem});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
             this.contextMenuStrip1.ShowImageMargin = false;
-            this.contextMenuStrip1.Size = new System.Drawing.Size(123, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(148, 28);
             // 
             // exportLogFileToolStripMenuItem
             // 
             this.exportLogFileToolStripMenuItem.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.exportLogFileToolStripMenuItem.Name = "exportLogFileToolStripMenuItem";
-            this.exportLogFileToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
+            this.exportLogFileToolStripMenuItem.Size = new System.Drawing.Size(147, 24);
             this.exportLogFileToolStripMenuItem.Text = "Export log file";
             this.exportLogFileToolStripMenuItem.Click += new System.EventHandler(this.exportLogFileToolStripMenuItem_Click);
             // 
@@ -194,9 +199,10 @@
             this.btnBegin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnBegin.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBegin.ForeColor = System.Drawing.Color.White;
-            this.btnBegin.Location = new System.Drawing.Point(340, 317);
+            this.btnBegin.Location = new System.Drawing.Point(425, 396);
+            this.btnBegin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnBegin.Name = "btnBegin";
-            this.btnBegin.Size = new System.Drawing.Size(64, 29);
+            this.btnBegin.Size = new System.Drawing.Size(80, 36);
             this.btnBegin.TabIndex = 19;
             this.btnBegin.Text = "&Begin";
             this.toolTip1.SetToolTip(this.btnBegin, "Click to create pack");
@@ -209,9 +215,10 @@
             this.label3.BackColor = System.Drawing.Color.Transparent;
             this.label3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.label3.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(4, 283);
+            this.label3.Location = new System.Drawing.Point(5, 354);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(270, 27);
+            this.label3.Size = new System.Drawing.Size(337, 33);
             this.label3.TabIndex = 22;
             this.label3.Text = "Format:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -221,9 +228,10 @@
             this.radioLIVE.AutoSize = true;
             this.radioLIVE.BackColor = System.Drawing.Color.Transparent;
             this.radioLIVE.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.radioLIVE.Location = new System.Drawing.Point(184, 289);
+            this.radioLIVE.Location = new System.Drawing.Point(230, 361);
+            this.radioLIVE.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioLIVE.Name = "radioLIVE";
-            this.radioLIVE.Size = new System.Drawing.Size(81, 17);
+            this.radioLIVE.Size = new System.Drawing.Size(91, 19);
             this.radioLIVE.TabIndex = 24;
             this.radioLIVE.Text = "LIVE (RGH)";
             this.radioLIVE.UseVisualStyleBackColor = false;
@@ -234,9 +242,10 @@
             this.radioCON.BackColor = System.Drawing.Color.Transparent;
             this.radioCON.Checked = true;
             this.radioCON.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.radioCON.Location = new System.Drawing.Point(83, 289);
+            this.radioCON.Location = new System.Drawing.Point(104, 361);
+            this.radioCON.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.radioCON.Name = "radioCON";
-            this.radioCON.Size = new System.Drawing.Size(84, 17);
+            this.radioCON.Size = new System.Drawing.Size(97, 19);
             this.radioCON.TabIndex = 23;
             this.radioCON.TabStop = true;
             this.radioCON.Text = "CON (Retail)";
@@ -246,11 +255,12 @@
             // 
             this.txtTitle.AllowDrop = true;
             this.txtTitle.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtTitle.Location = new System.Drawing.Point(4, 108);
+            this.txtTitle.Location = new System.Drawing.Point(5, 135);
+            this.txtTitle.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtTitle.MaxLength = 80;
             this.txtTitle.Multiline = true;
             this.txtTitle.Name = "txtTitle";
-            this.txtTitle.Size = new System.Drawing.Size(320, 64);
+            this.txtTitle.Size = new System.Drawing.Size(399, 79);
             this.txtTitle.TabIndex = 25;
             this.txtTitle.DragDrop += new System.Windows.Forms.DragEventHandler(this.HandleDragDrop);
             this.txtTitle.DragEnter += new System.Windows.Forms.DragEventHandler(this.HandleDragEnter);
@@ -262,11 +272,12 @@
             this.txtDesc.AllowDrop = true;
             this.txtDesc.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDesc.ForeColor = System.Drawing.Color.LightGray;
-            this.txtDesc.Location = new System.Drawing.Point(4, 208);
+            this.txtDesc.Location = new System.Drawing.Point(5, 260);
+            this.txtDesc.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.txtDesc.MaxLength = 80;
             this.txtDesc.Multiline = true;
             this.txtDesc.Name = "txtDesc";
-            this.txtDesc.Size = new System.Drawing.Size(320, 64);
+            this.txtDesc.Size = new System.Drawing.Size(399, 79);
             this.txtDesc.TabIndex = 26;
             this.txtDesc.Text = "Created with Nautilus";
             this.txtDesc.DragDrop += new System.Windows.Forms.DragEventHandler(this.HandleDragDrop);
@@ -278,9 +289,10 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(4, 86);
+            this.label2.Location = new System.Drawing.Point(5, 108);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(224, 19);
+            this.label2.Size = new System.Drawing.Size(288, 22);
             this.label2.TabIndex = 27;
             this.label2.Text = "Enter a name for your custom pack:";
             // 
@@ -288,9 +300,10 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(4, 186);
+            this.label4.Location = new System.Drawing.Point(5, 232);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(258, 19);
+            this.label4.Size = new System.Drawing.Size(336, 22);
             this.label4.TabIndex = 28;
             this.label4.Text = "Enter a description for your custom pack:";
             // 
@@ -299,9 +312,10 @@
             this.thumb10.BackColor = System.Drawing.Color.Transparent;
             this.thumb10.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.thumb10.Cursor = System.Windows.Forms.Cursors.Default;
-            this.thumb10.Location = new System.Drawing.Point(85, 333);
+            this.thumb10.Location = new System.Drawing.Point(106, 416);
+            this.thumb10.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.thumb10.Name = "thumb10";
-            this.thumb10.Size = new System.Drawing.Size(64, 64);
+            this.thumb10.Size = new System.Drawing.Size(80, 80);
             this.thumb10.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.thumb10.TabIndex = 31;
             this.thumb10.TabStop = false;
@@ -315,9 +329,10 @@
             this.thumb9.BackColor = System.Drawing.Color.Transparent;
             this.thumb9.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.thumb9.Cursor = System.Windows.Forms.Cursors.Default;
-            this.thumb9.Location = new System.Drawing.Point(11, 333);
+            this.thumb9.Location = new System.Drawing.Point(14, 416);
+            this.thumb9.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.thumb9.Name = "thumb9";
-            this.thumb9.Size = new System.Drawing.Size(64, 64);
+            this.thumb9.Size = new System.Drawing.Size(80, 80);
             this.thumb9.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.thumb9.TabIndex = 30;
             this.thumb9.TabStop = false;
@@ -331,9 +346,10 @@
             this.thumb8.BackColor = System.Drawing.Color.Transparent;
             this.thumb8.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.thumb8.Cursor = System.Windows.Forms.Cursors.Default;
-            this.thumb8.Location = new System.Drawing.Point(85, 260);
+            this.thumb8.Location = new System.Drawing.Point(106, 325);
+            this.thumb8.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.thumb8.Name = "thumb8";
-            this.thumb8.Size = new System.Drawing.Size(64, 64);
+            this.thumb8.Size = new System.Drawing.Size(80, 80);
             this.thumb8.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.thumb8.TabIndex = 29;
             this.thumb8.TabStop = false;
@@ -347,9 +363,10 @@
             this.thumb7.BackColor = System.Drawing.Color.Transparent;
             this.thumb7.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.thumb7.Cursor = System.Windows.Forms.Cursors.Default;
-            this.thumb7.Location = new System.Drawing.Point(11, 260);
+            this.thumb7.Location = new System.Drawing.Point(14, 325);
+            this.thumb7.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.thumb7.Name = "thumb7";
-            this.thumb7.Size = new System.Drawing.Size(64, 64);
+            this.thumb7.Size = new System.Drawing.Size(80, 80);
             this.thumb7.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.thumb7.TabIndex = 28;
             this.thumb7.TabStop = false;
@@ -363,9 +380,10 @@
             this.thumb6.BackColor = System.Drawing.Color.Transparent;
             this.thumb6.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.thumb6.Cursor = System.Windows.Forms.Cursors.Default;
-            this.thumb6.Location = new System.Drawing.Point(85, 187);
+            this.thumb6.Location = new System.Drawing.Point(106, 234);
+            this.thumb6.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.thumb6.Name = "thumb6";
-            this.thumb6.Size = new System.Drawing.Size(64, 64);
+            this.thumb6.Size = new System.Drawing.Size(80, 80);
             this.thumb6.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.thumb6.TabIndex = 27;
             this.thumb6.TabStop = false;
@@ -379,9 +397,10 @@
             this.thumb5.BackColor = System.Drawing.Color.Transparent;
             this.thumb5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.thumb5.Cursor = System.Windows.Forms.Cursors.Default;
-            this.thumb5.Location = new System.Drawing.Point(11, 187);
+            this.thumb5.Location = new System.Drawing.Point(14, 234);
+            this.thumb5.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.thumb5.Name = "thumb5";
-            this.thumb5.Size = new System.Drawing.Size(64, 64);
+            this.thumb5.Size = new System.Drawing.Size(80, 80);
             this.thumb5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.thumb5.TabIndex = 26;
             this.thumb5.TabStop = false;
@@ -395,9 +414,10 @@
             this.thumb4.BackColor = System.Drawing.Color.Transparent;
             this.thumb4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.thumb4.Cursor = System.Windows.Forms.Cursors.Default;
-            this.thumb4.Location = new System.Drawing.Point(85, 114);
+            this.thumb4.Location = new System.Drawing.Point(106, 142);
+            this.thumb4.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.thumb4.Name = "thumb4";
-            this.thumb4.Size = new System.Drawing.Size(64, 64);
+            this.thumb4.Size = new System.Drawing.Size(80, 80);
             this.thumb4.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.thumb4.TabIndex = 25;
             this.thumb4.TabStop = false;
@@ -411,9 +431,10 @@
             this.thumb3.BackColor = System.Drawing.Color.Transparent;
             this.thumb3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.thumb3.Cursor = System.Windows.Forms.Cursors.Default;
-            this.thumb3.Location = new System.Drawing.Point(11, 114);
+            this.thumb3.Location = new System.Drawing.Point(14, 142);
+            this.thumb3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.thumb3.Name = "thumb3";
-            this.thumb3.Size = new System.Drawing.Size(64, 64);
+            this.thumb3.Size = new System.Drawing.Size(80, 80);
             this.thumb3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.thumb3.TabIndex = 24;
             this.thumb3.TabStop = false;
@@ -427,9 +448,10 @@
             this.thumb2.BackColor = System.Drawing.Color.Transparent;
             this.thumb2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.thumb2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.thumb2.Location = new System.Drawing.Point(85, 41);
+            this.thumb2.Location = new System.Drawing.Point(106, 51);
+            this.thumb2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.thumb2.Name = "thumb2";
-            this.thumb2.Size = new System.Drawing.Size(64, 64);
+            this.thumb2.Size = new System.Drawing.Size(80, 80);
             this.thumb2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.thumb2.TabIndex = 23;
             this.thumb2.TabStop = false;
@@ -443,9 +465,10 @@
             this.thumb1.BackColor = System.Drawing.Color.Transparent;
             this.thumb1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.thumb1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.thumb1.Location = new System.Drawing.Point(11, 41);
+            this.thumb1.Location = new System.Drawing.Point(14, 51);
+            this.thumb1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.thumb1.Name = "thumb1";
-            this.thumb1.Size = new System.Drawing.Size(64, 64);
+            this.thumb1.Size = new System.Drawing.Size(80, 80);
             this.thumb1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.thumb1.TabIndex = 22;
             this.thumb1.TabStop = false;
@@ -460,9 +483,10 @@
             this.picPin.BackColor = System.Drawing.Color.Transparent;
             this.picPin.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picPin.Image = global::Nautilus.Properties.Resources.unpinned;
-            this.picPin.Location = new System.Drawing.Point(565, 3);
+            this.picPin.Location = new System.Drawing.Point(706, 4);
+            this.picPin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.picPin.Name = "picPin";
-            this.picPin.Size = new System.Drawing.Size(20, 20);
+            this.picPin.Size = new System.Drawing.Size(25, 25);
             this.picPin.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picPin.TabIndex = 64;
             this.picPin.TabStop = false;
@@ -477,9 +501,10 @@
             this.btnViewPackage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnViewPackage.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnViewPackage.ForeColor = System.Drawing.Color.White;
-            this.btnViewPackage.Location = new System.Drawing.Point(304, 317);
+            this.btnViewPackage.Location = new System.Drawing.Point(380, 396);
+            this.btnViewPackage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnViewPackage.Name = "btnViewPackage";
-            this.btnViewPackage.Size = new System.Drawing.Size(100, 29);
+            this.btnViewPackage.Size = new System.Drawing.Size(125, 36);
             this.btnViewPackage.TabIndex = 29;
             this.btnViewPackage.Text = "&View Package";
             this.btnViewPackage.UseVisualStyleBackColor = false;
@@ -499,9 +524,10 @@
             this.chkKeepFiles.AutoSize = true;
             this.chkKeepFiles.Cursor = System.Windows.Forms.Cursors.Hand;
             this.chkKeepFiles.Font = new System.Drawing.Font("Times New Roman", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkKeepFiles.Location = new System.Drawing.Point(4, 320);
+            this.chkKeepFiles.Location = new System.Drawing.Point(5, 400);
+            this.chkKeepFiles.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkKeepFiles.Name = "chkKeepFiles";
-            this.chkKeepFiles.Size = new System.Drawing.Size(232, 23);
+            this.chkKeepFiles.Size = new System.Drawing.Size(300, 26);
             this.chkKeepFiles.TabIndex = 31;
             this.chkKeepFiles.Text = "Keep extracted files for future use";
             this.chkKeepFiles.UseVisualStyleBackColor = true;
@@ -511,12 +537,13 @@
             // menuStrip1
             // 
             this.menuStrip1.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.advancedToolStripMenuItem,
             this.helpToolStripMenuItem1});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(590, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(738, 30);
             this.menuStrip1.TabIndex = 35;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -530,14 +557,14 @@
             this.setDTAEncodingToolStripMenuItem,
             this.hidePackFromRB3});
             this.advancedToolStripMenuItem.Name = "advancedToolStripMenuItem";
-            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(72, 20);
+            this.advancedToolStripMenuItem.Size = new System.Drawing.Size(89, 26);
             this.advancedToolStripMenuItem.Text = "&Advanced";
             // 
             // useExistingFolderStructureToolStripMenuItem
             // 
             this.useExistingFolderStructureToolStripMenuItem.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.useExistingFolderStructureToolStripMenuItem.Name = "useExistingFolderStructureToolStripMenuItem";
-            this.useExistingFolderStructureToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.useExistingFolderStructureToolStripMenuItem.Size = new System.Drawing.Size(276, 26);
             this.useExistingFolderStructureToolStripMenuItem.Text = "Use e&xisting folder structure";
             this.useExistingFolderStructureToolStripMenuItem.Click += new System.EventHandler(this.useExistingFolderStructureToolStripMenuItem_Click);
             // 
@@ -548,14 +575,14 @@
             this.useRecursiveSearching.CheckOnClick = true;
             this.useRecursiveSearching.CheckState = System.Windows.Forms.CheckState.Checked;
             this.useRecursiveSearching.Name = "useRecursiveSearching";
-            this.useRecursiveSearching.Size = new System.Drawing.Size(221, 22);
+            this.useRecursiveSearching.Size = new System.Drawing.Size(276, 26);
             this.useRecursiveSearching.Text = "Use recursive searching";
             this.useRecursiveSearching.Click += new System.EventHandler(this.useRecursiveSearching_Click);
             // 
             // toolStripMenuItem1
             // 
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(218, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(273, 6);
             // 
             // setGameIDToolStripMenuItem
             // 
@@ -565,14 +592,14 @@
             this.rockBand2ToolStripMenuItem,
             this.rockBand3ToolStripMenuItem});
             this.setGameIDToolStripMenuItem.Name = "setGameIDToolStripMenuItem";
-            this.setGameIDToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.setGameIDToolStripMenuItem.Size = new System.Drawing.Size(276, 26);
             this.setGameIDToolStripMenuItem.Text = "Set game ID";
             // 
             // rockBandToolStripMenuItem
             // 
             this.rockBandToolStripMenuItem.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.rockBandToolStripMenuItem.Name = "rockBandToolStripMenuItem";
-            this.rockBandToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.rockBandToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
             this.rockBandToolStripMenuItem.Text = "Rock Band";
             this.rockBandToolStripMenuItem.Click += new System.EventHandler(this.rockBandToolStripMenuItem_Click);
             // 
@@ -580,7 +607,7 @@
             // 
             this.rockBand2ToolStripMenuItem.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.rockBand2ToolStripMenuItem.Name = "rockBand2ToolStripMenuItem";
-            this.rockBand2ToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.rockBand2ToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
             this.rockBand2ToolStripMenuItem.Text = "Rock Band 2";
             this.rockBand2ToolStripMenuItem.Click += new System.EventHandler(this.rockBand2ToolStripMenuItem_Click);
             // 
@@ -590,7 +617,7 @@
             this.rockBand3ToolStripMenuItem.Checked = true;
             this.rockBand3ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.rockBand3ToolStripMenuItem.Name = "rockBand3ToolStripMenuItem";
-            this.rockBand3ToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.rockBand3ToolStripMenuItem.Size = new System.Drawing.Size(174, 26);
             this.rockBand3ToolStripMenuItem.Text = "Rock Band 3";
             this.rockBand3ToolStripMenuItem.Click += new System.EventHandler(this.rockBand3ToolStripMenuItem_Click);
             // 
@@ -601,14 +628,14 @@
             this.aNSIToolStripMenuItem,
             this.uTF8ToolStripMenuItem});
             this.setDTAEncodingToolStripMenuItem.Name = "setDTAEncodingToolStripMenuItem";
-            this.setDTAEncodingToolStripMenuItem.Size = new System.Drawing.Size(221, 22);
+            this.setDTAEncodingToolStripMenuItem.Size = new System.Drawing.Size(276, 26);
             this.setDTAEncodingToolStripMenuItem.Text = "Set DTA encoding";
             // 
             // aNSIToolStripMenuItem
             // 
             this.aNSIToolStripMenuItem.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.aNSIToolStripMenuItem.Name = "aNSIToolStripMenuItem";
-            this.aNSIToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.aNSIToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
             this.aNSIToolStripMenuItem.Text = "ANSI";
             this.aNSIToolStripMenuItem.Click += new System.EventHandler(this.aNSIToolStripMenuItem_Click);
             // 
@@ -618,14 +645,22 @@
             this.uTF8ToolStripMenuItem.Checked = true;
             this.uTF8ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.uTF8ToolStripMenuItem.Name = "uTF8ToolStripMenuItem";
-            this.uTF8ToolStripMenuItem.Size = new System.Drawing.Size(100, 22);
+            this.uTF8ToolStripMenuItem.Size = new System.Drawing.Size(125, 26);
             this.uTF8ToolStripMenuItem.Text = "UTF8";
             this.uTF8ToolStripMenuItem.Click += new System.EventHandler(this.uTF8ToolStripMenuItem_Click);
+            // 
+            // hidePackFromRB3
+            // 
+            this.hidePackFromRB3.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
+            this.hidePackFromRB3.CheckOnClick = true;
+            this.hidePackFromRB3.Name = "hidePackFromRB3";
+            this.hidePackFromRB3.Size = new System.Drawing.Size(276, 26);
+            this.hidePackFromRB3.Text = "Hide pack from RB3";
             // 
             // helpToolStripMenuItem1
             // 
             this.helpToolStripMenuItem1.Name = "helpToolStripMenuItem1";
-            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem1.Size = new System.Drawing.Size(55, 26);
             this.helpToolStripMenuItem1.Text = "&Help";
             this.helpToolStripMenuItem1.Click += new System.EventHandler(this.helpToolStripMenuItem1_Click);
             // 
@@ -642,9 +677,10 @@
             this.btnReset.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnReset.ForeColor = System.Drawing.Color.White;
-            this.btnReset.Location = new System.Drawing.Point(304, 283);
+            this.btnReset.Location = new System.Drawing.Point(380, 354);
+            this.btnReset.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnReset.Name = "btnReset";
-            this.btnReset.Size = new System.Drawing.Size(100, 29);
+            this.btnReset.Size = new System.Drawing.Size(125, 36);
             this.btnReset.TabIndex = 40;
             this.btnReset.Text = "&Reset";
             this.btnReset.UseVisualStyleBackColor = false;
@@ -661,9 +697,10 @@
             this.btnShowHide.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnShowHide.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnShowHide.ForeColor = System.Drawing.Color.White;
-            this.btnShowHide.Location = new System.Drawing.Point(371, 178);
+            this.btnShowHide.Location = new System.Drawing.Point(464, 222);
+            this.btnShowHide.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnShowHide.Name = "btnShowHide";
-            this.btnShowHide.Size = new System.Drawing.Size(33, 24);
+            this.btnShowHide.Size = new System.Drawing.Size(41, 30);
             this.btnShowHide.TabIndex = 41;
             this.btnShowHide.Text = "-->";
             this.btnShowHide.UseVisualStyleBackColor = false;
@@ -686,17 +723,19 @@
             this.panel1.Controls.Add(this.thumb3);
             this.panel1.Controls.Add(this.thumb2);
             this.panel1.Controls.Add(this.thumb1);
-            this.panel1.Location = new System.Drawing.Point(415, 26);
+            this.panel1.Location = new System.Drawing.Point(519, 32);
+            this.panel1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(163, 444);
+            this.panel1.Size = new System.Drawing.Size(203, 554);
             this.panel1.TabIndex = 42;
             // 
             // label1
             // 
             this.label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.label1.Location = new System.Drawing.Point(11, 12);
+            this.label1.Location = new System.Drawing.Point(14, 15);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(138, 20);
+            this.label1.Size = new System.Drawing.Size(172, 24);
             this.label1.TabIndex = 44;
             this.label1.Text = "Available Thumbnails";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -710,9 +749,10 @@
             this.btnPrev.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPrev.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPrev.ForeColor = System.Drawing.Color.White;
-            this.btnPrev.Location = new System.Drawing.Point(11, 408);
+            this.btnPrev.Location = new System.Drawing.Point(14, 510);
+            this.btnPrev.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnPrev.Name = "btnPrev";
-            this.btnPrev.Size = new System.Drawing.Size(64, 24);
+            this.btnPrev.Size = new System.Drawing.Size(80, 30);
             this.btnPrev.TabIndex = 43;
             this.btnPrev.Text = "<---";
             this.btnPrev.UseVisualStyleBackColor = false;
@@ -727,9 +767,10 @@
             this.btnNext.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnNext.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnNext.ForeColor = System.Drawing.Color.White;
-            this.btnNext.Location = new System.Drawing.Point(85, 408);
+            this.btnNext.Location = new System.Drawing.Point(106, 510);
+            this.btnNext.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnNext.Name = "btnNext";
-            this.btnNext.Size = new System.Drawing.Size(64, 24);
+            this.btnNext.Size = new System.Drawing.Size(80, 30);
             this.btnNext.TabIndex = 42;
             this.btnNext.Text = "--->";
             this.btnNext.UseVisualStyleBackColor = false;
@@ -741,9 +782,10 @@
             this.picPackage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picPackage.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picPackage.Image = global::Nautilus.Properties.Resources.RB3;
-            this.picPackage.Location = new System.Drawing.Point(340, 108);
+            this.picPackage.Location = new System.Drawing.Point(425, 135);
+            this.picPackage.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.picPackage.Name = "picPackage";
-            this.picPackage.Size = new System.Drawing.Size(64, 64);
+            this.picPackage.Size = new System.Drawing.Size(80, 80);
             this.picPackage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picPackage.TabIndex = 21;
             this.picPackage.TabStop = false;
@@ -757,9 +799,10 @@
             this.picContent.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.picContent.Cursor = System.Windows.Forms.Cursors.Hand;
             this.picContent.Image = global::Nautilus.Properties.Resources.RB3;
-            this.picContent.Location = new System.Drawing.Point(340, 208);
+            this.picContent.Location = new System.Drawing.Point(425, 260);
+            this.picContent.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.picContent.Name = "picContent";
-            this.picContent.Size = new System.Drawing.Size(64, 64);
+            this.picContent.Size = new System.Drawing.Size(80, 80);
             this.picContent.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.picContent.TabIndex = 20;
             this.picContent.TabStop = false;
@@ -770,7 +813,8 @@
             // picWorking
             // 
             this.picWorking.Image = global::Nautilus.Properties.Resources.working;
-            this.picWorking.Location = new System.Drawing.Point(276, 289);
+            this.picWorking.Location = new System.Drawing.Point(345, 361);
+            this.picWorking.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.picWorking.Name = "picWorking";
             this.picWorking.Size = new System.Drawing.Size(128, 15);
             this.picWorking.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
@@ -782,9 +826,10 @@
             // 
             this.btnRB1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRB1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRB1.Location = new System.Drawing.Point(158, 26);
+            this.btnRB1.Location = new System.Drawing.Point(198, 32);
+            this.btnRB1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnRB1.Name = "btnRB1";
-            this.btnRB1.Size = new System.Drawing.Size(38, 30);
+            this.btnRB1.Size = new System.Drawing.Size(48, 38);
             this.btnRB1.TabIndex = 65;
             this.btnRB1.Text = "RB1";
             this.btnRB1.UseVisualStyleBackColor = true;
@@ -794,9 +839,10 @@
             // 
             this.btnRB2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRB2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRB2.Location = new System.Drawing.Point(202, 26);
+            this.btnRB2.Location = new System.Drawing.Point(252, 32);
+            this.btnRB2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnRB2.Name = "btnRB2";
-            this.btnRB2.Size = new System.Drawing.Size(38, 30);
+            this.btnRB2.Size = new System.Drawing.Size(48, 38);
             this.btnRB2.TabIndex = 66;
             this.btnRB2.Text = "RB2";
             this.btnRB2.UseVisualStyleBackColor = true;
@@ -806,29 +852,22 @@
             // 
             this.btnRB3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.btnRB3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRB3.Location = new System.Drawing.Point(246, 26);
+            this.btnRB3.Location = new System.Drawing.Point(308, 32);
+            this.btnRB3.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnRB3.Name = "btnRB3";
-            this.btnRB3.Size = new System.Drawing.Size(38, 30);
+            this.btnRB3.Size = new System.Drawing.Size(48, 38);
             this.btnRB3.TabIndex = 67;
             this.btnRB3.Text = "RB3";
             this.btnRB3.UseVisualStyleBackColor = true;
             this.btnRB3.Click += new System.EventHandler(this.btnRB3_Click);
             // 
-            // hidePackFromRB3
-            // 
-            this.hidePackFromRB3.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.hidePackFromRB3.CheckOnClick = true;
-            this.hidePackFromRB3.Name = "hidePackFromRB3";
-            this.hidePackFromRB3.Size = new System.Drawing.Size(221, 22);
-            this.hidePackFromRB3.Text = "Hide pack from RB3";
-            // 
             // PackCreator
             // 
             this.AllowDrop = true;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
+            this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-            this.ClientSize = new System.Drawing.Size(590, 482);
+            this.ClientSize = new System.Drawing.Size(738, 602);
             this.Controls.Add(this.btnRB3);
             this.Controls.Add(this.btnRB2);
             this.Controls.Add(this.btnRB1);
@@ -856,6 +895,7 @@
             this.Controls.Add(this.lstLog);
             this.DoubleBuffered = true;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.Name = "PackCreator";
             this.ShowIcon = false;

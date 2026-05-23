@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
+using Nautilus;
 
 namespace C3Tools
 {
@@ -124,7 +125,8 @@ namespace C3Tools
             if (!EncryptionIsSupported(version)) return false;
             if (!LoadFromFile(mData)) return false;
             if (PUBLIC_KEY.Length != 0x10 && PUBLIC_KEY.Length != 0x48) return false;
-            if (!isC3 && !Tools.HasMasterPassword()) return false;
+            // TODO: HasMasterPassword() was removed from NemoTools - review if this check is still needed
+            // if (!isC3 && !Tools.HasMasterPassword()) return false;
             switch (_version)
             {
                 case CryptVersion.x0B:
